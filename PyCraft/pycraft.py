@@ -1621,6 +1621,35 @@ def open_settings():
         position=(0, -0.05),  # Position on the screen
         on_click = lambda: toggle_gamemode()
     )
+mob_spawning_enabled = True
+block_drops_enabled = True
+
+def toggle_mob_spawning():
+    global mob_spawning_enabled
+    mob_spawning_enabled = not mob_spawning_enabled
+    if not mob_spawning_enabled:
+        clear_mobs()
+    print(f"Mob Spawning: {'Enabled' if mob_spawning_enabled else 'Disabled'}")
+
+def toggle_block_drops():
+    global block_drops_enabled
+    block_drops_enabled = not block_drops_enabled
+    if not block_drops_enabled:
+        clear_block_drops()
+    print(f"Block Drops: {'Enabled' if block_drops_enabled else 'Disabled'}")
+
+def clear_mobs():
+    for entity in scene.entities[:]:
+        if hasattr(entity, 'is_mob') and entity.is_mob:
+            destroy(entity)
+    print("All mobs cleared.")
+
+def clear_block_drops():
+    for entity in scene.entities[:]:
+        if hasattr(entity, 'is_block_drop') and entity.is_block_drop:
+            destroy(entity)
+    print("All block drops cleared.")
+
 
     fov_slider = Slider(
         min=60, max=120, default=camera.fov,
